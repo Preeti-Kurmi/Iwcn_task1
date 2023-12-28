@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Plain JavaScript Frontend Task</title>
+    <style>
+      
+
+      table {
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+      th,
+      td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: center;
+        width: 40rem;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script>
+      // Constants
+      const numberOfColumns = 6;
+      const tableData = [
+      { header: "Month1"},
+        { header: "Onboarding Call", data: [] },
+        { header: "Google Search Console Access", data: [] },
+        { header: "Google Analytics Access", data: [] },
+        { header: "Website Access", data: [] },
+        { header: "Technical Audit", data: [] },
+        { header: "Anchor Text and Semantic Analysis", data: [] },
+        { header: "Competitor Analysis", data: [] },
+        { header: "Anchor Text/URL Mapping", data: [] },
+        { header: "Google Data Studio Report + Local Reporting Suite", data: [] },
+        { header: "Site Level Optimization", data: [] },
+        { header: "On Page Optimization", data: [] },
+        { header: "Content Creation", data: [] },
+        { header: "Content Publishing", data: [] },
+        { header: "Premium Press Release", data: [] },
+        { header: "Authority Niche Placements", data: [] },
+        { header: "Review Management", data: [] },
+        { header: "Index Links", data: [] },
+        { header: "Video Recap", data: [] },
+        
+      ];
+
+      // Function to handle cell edits
+      const handleEdit = (id, key, value, data) => {
+        data.forEach((item) => {
+          if (item.header === key) {
+            item.data[id] = value;
+          }
+        });
+        return data;
+      };
+
+      // Function to prepare data for API post
+      const prepareDataForPost = (data) => {
+        console.log("Data ready to post:", data);
+        // Add your API post logic here using 'data'
+      };
+
+      // Function to render the table
+      const renderTable = () => {
+        const root = document.getElementById("root");
+        const table = document.createElement("table");
+        const tbody = document.createElement("tbody");
+
+        tableData.forEach((rowData) => {
+          const tr = document.createElement("tr");
+
+          const th = document.createElement("th");
+          th.setAttribute("class", "verticalHeader");
+          th.textContent = rowData.header;
+          tr.appendChild(th);
+
+          for (let i = 0; i < numberOfColumns; i++) {
+            const td = document.createElement("td");
+            td.setAttribute("contentEditable", true);
+            td.setAttribute("class", "editableCell");
+
+            td.addEventListener("blur", (e) => {
+              const newData = handleEdit(
+                i,
+                rowData.header,
+                e.target.textContent,
+                tableData
+              );
+              setData(newData);
+            });
+
+            tr.appendChild(td);
+          }
+
+          tbody.appendChild(tr);
+        });
+
+        table.appendChild(tbody);
+        root.appendChild(table);
+
+        const button = document.createElement("button");
+        button.textContent = "Prepare Data for API";
+        button.addEventListener("click", () => {
+          prepareDataForPost(tableData);
+        });
+
+        root.appendChild(button);
+      };
+
+      // Initial data state
+      let data = [];
+
+      // Function to set data
+      const setData = (newData) => {
+        data = newData;
+      };
+
+      // Render the table
+      renderTable();
+    </script>
+  </body>
+</html>
